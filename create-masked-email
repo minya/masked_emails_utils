@@ -1,0 +1,43 @@
+#!/bin/sh
+
+set -e
+
+source lib.sh
+
+function create_masked_email() {
+    BEARER=$1
+    ACCOUNT_ID=$2
+    PAYLOAD=\
+$"{
+    \"using\": [
+        \"urn:ietf:params:jmap:core\",
+        \"https://www.fastmail.com/dev/maskedemail\"
+    ],
+    \"methodCalls\": [
+        [\"MaskedEmail/set\", {
+            \"accountId\": \"$ACCOUNT_ID\",
+            \"create\": {
+                \"newMaskedEmail\": {
+                    \"description\": \"bash script\",
+                    \"forDomain\": \"https://example.com\",
+                    \"state\": \"pending\"
+                }
+            }
+        }, \"t0\"]
+        ]
+    }"
+    #echo $PAYLOAD
+    API_URL="https://api.fastmail.com/jmap/api"
+    RESULT=$(echo $PAYLOAD | http $API_URL Authorization:"Bearer $BEARER")
+    echo $RESULT
+}
+
+BEARER=$(cat ./.env/token)
+API_URL="https://api.fastmail.com/jmap/api"
+ACCOUNT_ID=$(get_session_token $BEARER)
+MASKED_EMAILS=$(create_masked_email $BEARER $ACCOUNT_ID)
+echo $MASKED_EMAILS
+    
+
+
+

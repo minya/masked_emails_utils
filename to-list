@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+jq '.methodResponses[0][1].list'

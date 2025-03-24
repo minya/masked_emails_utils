@@ -1,0 +1,7 @@
+#!/bin/bash
+
+set -e
+
+STATE=$1
+
+jq --arg status "$STATE" '[.[] | select(.state == $status)]'

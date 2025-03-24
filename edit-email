@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -e
+
+source lib.sh
+
+MASKED_EMAIL_ID=$1
+BEARER=$(cat ./.env/token)
+ACCOUNT_ID=$(get_session_token $BEARER)
+
+RESPONSE=$(get_masked_email $BEARER $ACCOUNT_ID $MASKED_EMAIL_ID)
+DESCRIPTION=$(echo $RESPONSE | jq -r ".methodResponses[0][1].list[0].description")
+FOR_DOMAIN=$(echo $RESPONSE | jq -r ".methodResponses[0][1].list[0].forDomain")
+STATE=$(echo $RESPONSE | jq -r ".methodResponses[0][1].list[0].state")
+
+PAYLOAD=\
+$"{
+\"using\": [
+    \"urn:ietf:params:jmap:core\",
+    \"https://www.fastmail.com/dev/maskedemail\"
+],
+\"methodCalls\": [
+    [\"MaskedEmail/set\", {
+        \"accountId\": \"$ACCOUNT_ID\",
+        \"update\": {
+            \"$MASKED_EMAIL_ID\": {
+                \"description\": \"$DESCRIPTION\",
+                \"forDomain\": \"$FOR_DOMAIN\",
+                \"state\": \"$STATE\"
+            }
+        }
+    }, \"t0\"]
+]
+}"
+
+# open the payload in a text editor
+TMP_PAYLOAD_FILE=$(mktemp /tmp/payload.json.XXXXXX)
+echo $PAYLOAD | jq > $TMP_PAYLOAD_FILE
+$EDITOR $TMP_PAYLOAD_FILE
+PAYLOAD=$(cat $TMP_PAYLOAD_FILE)
+rm $TMP_PAYLOAD_FILE
+
+API_URL="https://api.fastmail.com/jmap/api"
+RESULT=$(echo $PAYLOAD | http $API_URL Authorization:"Bearer $BEARER")
+echo $RESULT
+

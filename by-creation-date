@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -e
+
+DATE=$1
+
+
+# filter by createdBy >= $DATE
+jq --arg date "$DATE" '[.[] | select(.createdAt >= $date)]'
