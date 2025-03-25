@@ -1,5 +1,6 @@
 #!/bin/bash
 
+API_URL="https://api.fastmail.com/jmap/api"
 # get session token func with bearer token
 function get_session_token() {
     URL="https://api.fastmail.com/jmap/session"

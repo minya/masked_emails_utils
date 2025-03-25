@@ -40,7 +40,5 @@ $EDITOR $TMP_PAYLOAD_FILE
 PAYLOAD=$(cat $TMP_PAYLOAD_FILE)
 rm $TMP_PAYLOAD_FILE
 
-API_URL="https://api.fastmail.com/jmap/api"
 RESULT=$(echo $PAYLOAD | http $API_URL Authorization:"Bearer $BEARER")
 echo $RESULT
-

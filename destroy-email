@@ -7,7 +7,6 @@ source lib.sh
 MASKED_EMAIL_ID=$1
 
 BEARER=$(cat ./.env/token)
-API_URL="https://api.fastmail.com/jmap/api"
 ACCOUNT_ID=$(get_session_token $BEARER)
 MASKED_EMAILS=$(destroy_masked_email $BEARER $ACCOUNT_ID $MASKED_EMAIL_ID)
 echo $MASKED_EMAILS | jq '.methodResponses[0][1].destroyed[0]'

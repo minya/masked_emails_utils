@@ -5,7 +5,6 @@ set -e
 source lib.sh
 
 BEARER=$(cat ./.env/token)
-API_URL="https://api.fastmail.com/jmap/api"
 ACCOUNT_ID=$(get_session_token $BEARER)
 MASKED_EMAILS=$(get_masked_emails $BEARER $ACCOUNT_ID)
 echo $MASKED_EMAILS
