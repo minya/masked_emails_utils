@@ -1,7 +1,0 @@
-#!/bin/sh
-
-set -e
-
-
-# filter items in method responses that have status deleted
-./get-masked-emails | jq '.[] | select(.status == "deleted")' 
