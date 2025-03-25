@@ -4,7 +4,7 @@
 function get_session_token() {
     URL="https://api.fastmail.com/jmap/session"
     BEARER=$1
-    SESSION_RESP=$(http $URL Authorization:"Bearer $BEARER")
+    SESSION_RESP=$(http GET $URL Authorization:"Bearer $BEARER")
     ACCOUNT=$(echo $SESSION_RESP | jq -r '.accounts | keys[0]')
     echo $ACCOUNT
 }
