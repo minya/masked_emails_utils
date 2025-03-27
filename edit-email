@@ -40,5 +40,5 @@ $EDITOR $TMP_PAYLOAD_FILE
 PAYLOAD=$(cat $TMP_PAYLOAD_FILE)
 rm $TMP_PAYLOAD_FILE
 
-RESULT=$(echo $PAYLOAD | http $API_URL Authorization:"Bearer $BEARER")
+RESULT=$(curl -s -H "Authorization: Bearer $BEARER" -H "Content-Type: application/json" -d "$PAYLOAD" $API_URL)
 echo $RESULT

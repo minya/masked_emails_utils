@@ -1,7 +1,15 @@
 # Fastmail's Masked Emails API utilities
 
+A collection of command-line tools to manage Fastmail's masked email addresses through their API.
+
+## Requirements
+- Fastmail account with masked email feature
+- bash/shell environment
+- curl (for API requests)
+- jq (for JSON parsing)
+
 ## Setup
-Create an API token with the Masked Email scope. Put it in the ```.env/token``` file.
+Create an API token with the Masked Email scope. Put it in the `.env/token` file.
 
 ## Usage examples
 ### Create a new masked email
@@ -33,4 +41,9 @@ Create an API token with the Masked Email scope. Put it in the ```.env/token``` 
 ```bash
 ./edit-email <email_id>
 ```
-Opens the system editor with a JSON payload for the ```MaskedEmail/set``` API call. Make changes and save.
+Opens the system editor with a JSON payload for the `MaskedEmail/set` API call. Make changes and save.
+
+## Troubleshooting
+- If you encounter permission issues, ensure the scripts are executable: `chmod +x ./*`
+- Check your API token if you get authentication errors
+- For full API documentation, refer to the [Fastmail API documentation](https://www.fastmail.com/developer/)

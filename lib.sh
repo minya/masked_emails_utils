@@ -5,7 +5,7 @@ API_URL="https://api.fastmail.com/jmap/api"
 function get_session_token() {
     URL="https://api.fastmail.com/jmap/session"
     BEARER=$1
-    SESSION_RESP=$(http GET $URL Authorization:"Bearer $BEARER")
+    SESSION_RESP=$(curl -s -H "Authorization: Bearer $BEARER" $URL)
     ACCOUNT=$(echo $SESSION_RESP | jq -r '.accounts | keys[0]')
     echo $ACCOUNT
 }
@@ -30,7 +30,7 @@ $"{
 }"
     #echo $PAYLOAD
     API_URL="https://api.fastmail.com/jmap/api"
-    RESULT=$(echo $PAYLOAD | http $API_URL Authorization:"Bearer $BEARER")
+    RESULT=$(curl -s -H "Authorization: Bearer $BEARER" -H "Content-Type: application/json" -d "$PAYLOAD" $API_URL)
     echo $RESULT
 }
 
@@ -51,7 +51,7 @@ $"{
 }"
     #echo $PAYLOAD
     API_URL="https://api.fastmail.com/jmap/api"
-    RESULT=$(echo $PAYLOAD | http $API_URL Authorization:"Bearer $BEARER")
+    RESULT=$(curl -s -H "Authorization: Bearer $BEARER" -H "Content-Type: application/json" -d "$PAYLOAD" $API_URL)
     echo $RESULT
 }
 
@@ -76,6 +76,6 @@ $"{
 }"
     #echo $PAYLOAD
     API_URL="https://api.fastmail.com/jmap/api"
-    RESULT=$(echo $PAYLOAD | http $API_URL Authorization:"Bearer $BEARER")
+    RESULT=$(curl -s -H "Authorization: Bearer $BEARER" -H "Content-Type: application/json" -d "$PAYLOAD" $API_URL)
     echo $RESULT
 }
